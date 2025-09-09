@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Class Report - {{ class_obj.name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="text-center mb-4">
+            <h1>Musenga Primary School</h1>
+            <h2>Class Performance Report</h2>
+            <p class="text-muted">Generated on: {{ generated_date }}</p>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Class Information</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Class Name:</strong> {{ class_obj.name }}</p>
+                        <p><strong>Grade Level:</strong> {{ class_obj.grade_level }}</p>
+                        <p><strong>Academic Year:</strong> {{ class_obj.academic_year.name }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Teacher:</strong> {{ class_obj.teacher.get_full_name }}</p>
+                        <p><strong>Total Students:</strong> {{ total_students }}</p>
+                        <p><strong>Class Average:</strong> 
+                            <span class="{% if class_avg >= 80 %}text-success{% elif class_avg >= 60 %}text-warning{% else %}text-danger{% endif %}">
+                                {{ class_avg|floatformat:1 }}%
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Subject Performance</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Subject</th>
+                                <th>Average Score</th>
+                                <th>Number of Assessments</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for stat in subject_stats %}
+                            <tr>
+                                <td>{{ stat.subject__name }}</td>
+                                <td>
+                                    <span class="{% if stat.avg_score >= 80 %}text-success{% elif stat.avg_score >= 60 %}text-warning{% else %}text-danger{% endif %}">
+                                        {{ stat.avg_score|floatformat:1 }}%
+                                    </span>
+                                </td>
+                                <td>{{ stat.count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3>Student Rankings</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Student ID</th>
+                                <th>Student Name</th>
+                                <th>Average Score</th>
+                                <th>Number of Grades</th>
+                                <th>Performance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for stat in student_stats %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ stat.student.student_id }}</td>
+                                <td>{{ stat.student.first_name }} {{ stat.student.last_name }}</td>
+                                <td>
+                                    <span class="{% if stat.average >= 80 %}text-success{% elif stat.average >= 60 %}text-warning{% else %}text-danger{% endif %}">
+                                        {{ stat.average|floatformat:1 }}%
+                                    </span>
+                                </td>
+                                <td>{{ stat.grade_count }}</td>
+                                <td>
+                                    {% if stat.average >= 80 %}Excellent
+                                    {% elif stat.average >= 70 %}Good
+                                    {% elif stat.average >= 60 %}Average
+                                    {% else %}Needs Improvement
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4 text-center">
+            <p class="text-muted">MGPAS - Musenga Grade & Performance Analysis System</p>
+        </div>
+    </div>
+</body>
+</html>

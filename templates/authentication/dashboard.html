@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MGPAS - Musenga School Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(135deg, #1a56db 0%, #0d47a1 100%);
+            color: white;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .logo span {
+            color: #2ecc71;
+        }
+        
+        .admin-info {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .admin-info h2 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #e0e7ff;
+        }
+        
+        .admin-info h3 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .search-box {
+            padding: 0 20px;
+            margin-bottom: 30px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .nav-section {
+            margin-bottom: 25px;
+        }
+        
+        .nav-section h4 {
+            padding: 0 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            color: #a5b4fc;
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .nav-links li:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-links li i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a56db;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .notification-bell {
+            position: relative;
+            font-size: 20px;
+            color: #4b5563;
+            cursor: pointer;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #1a56db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a56db;
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a56db;
+            font-size: 20px;
+        }
+        
+        .card-content {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        
+        .card-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f3f4f6;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a56db;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        /* School Management Section */
+        .management-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .section-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a56db;
+        }
+        
+        .view-all {
+            color: #1a56db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .management-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .management-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .management-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .management-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a56db;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .management-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a56db;
+            margin-bottom: 8px;
+        }
+        
+        .management-desc {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Recent Activity */
+        .recent-activity {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .activity-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a56db;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a56db;
+            margin-right: 15px;
+            font-size: 16px;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-content h4 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .activity-content p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .activity-time {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+            
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .management-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <h1>MGPAS<span>+</span></h1>
+            <p style="color: #a5b4fc; font-size: 14px; margin-top: 5px;">Musenga School System</p>
+        </div>
+        
+        <div class="admin-info">
+            <h2>Welcome back</h2>
+            <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+            <p style="color: #a5b4fc; font-size: 14px; margin-top: 5px;">{{ user.get_role_display }}</p>
+        </div>
+        
+        <div class="search-box">
+            <input type="text" placeholder="Search students, grades...">
+        </div>
+        
+        <div class="nav-section">
+            <h4>Main Menu</h4>
+            <ul class="nav-links">
+                <li onclick="window.location.href='/dashboard/'"><i class="fas fa-home"></i> Dashboard</li>
+                <li onclick="window.location.href='/grading/students/'"><i class="fas fa-users"></i> Students</li>
+                <li onclick="window.location.href='/grading/grades/'"><i class="fas fa-graduation-cap"></i> Grades</li>
+                <li onclick="window.location.href='/attendance/'"><i class="fas fa-clipboard-check"></i> Attendance</li>
+                <li onclick="window.location.href='/classes/'"><i class="fas fa-chalkboard"></i> Class List</li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h4>Academic</h4>
+            <ul class="nav-links">
+                <li onclick="window.location.href='/exams/'"><i class="fas fa-file-alt"></i> Exams</li>
+                <li onclick="window.location.href='/timetable/'"><i class="fas fa-calendar-alt"></i> Timetable</li>
+                <li onclick="window.location.href='/analytics/'"><i class="fas fa-chart-bar"></i> Analytics</li>
+                <li onclick="window.location.href='/reporting/'"><i class="fas fa-file-pdf"></i> Reports</li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h4>Management</h4>
+            <ul class="nav-links">
+                <li onclick="window.location.href='/admin/'"><i class="fas fa-cog"></i> Admin Panel</li>
+                <li onclick="window.location.href='/profile/'"><i class="fas fa-user"></i> My Profile</li>
+                <li onclick="window.location.href='{% url 'admin:logout' %}'"><i class="fas fa-sign-out-alt"></i> Logout</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h2>School Management Dashboard</h2>
+            <div class="user-actions">
+                <div class="notification-bell">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar">{{ user.first_name|first }}{{ user.last_name|first }}</div>
+                    <span>{{ user.first_name }} {{ user.last_name }}</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Stats Cards -->
+        <div class="dashboard-cards">
+            <div class="card" onclick="window.location.href='/grading/students/'">
+                <div class="card-header">
+                    <h3 class="card-title">Students</h3>
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Manage student records and personal information.</p>
+                </div>
+                <div class="card-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">{{ total_students }}</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{ active_students }}</div>
+                        <div class="stat-label">Active</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card" onclick="window.location.href='/grading/grades/'">
+                <div class="card-header">
+                    <h3 class="card-title">Grades</h3>
+                    <div class="card-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Manage academic performance and grade records.</p>
+                </div>
+                <div class="card-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">{{ total_grades }}</div>
+                        <div class="stat-label">Entries</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">B+</div>
+                        <div class="stat-label">Average</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card" onclick="window.location.href='/attendance/'">
+                <div class="card-header">
+                    <h3 class="card-title">Attendance</h3>
+                    <div class="card-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Track and manage student attendance records.</p>
+                </div>
+                <div class="card-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">94%</div>
+                        <div class="stat-label">This Week</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Absent</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- School Management Features -->
+        <div class="management-section">
+            <div class="section-header">
+                <h3>School Management</h3>
+            </div>
+            <div class="management-grid">
+                <div class="management-card" onclick="window.location.href='/classes/'">
+                    <div class="management-icon">
+                        <i class="fas fa-chalkboard"></i>
+                    </div>
+                    <h4 class="management-title">Class List</h4>
+                    <p class="management-desc">View and manage all classes, student assignments, and class information.</p>
+                </div>
+                
+                <div class="management-card" onclick="window.location.href='/exams/'">
+                    <div class="management-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h4 class="management-title">Exam Center</h4>
+                    <p class="management-desc">Create exam schedules, manage results, and track academic performance.</p>
+                </div>
+                
+                <div class="management-card" onclick="window.location.href='/timetable/'">
+                    <div class="management-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h4 class="management-title">Timetable</h4>
+                    <p class="management-desc">View and manage class schedules, teacher assignments, and room allocations.</p>
+                </div>
+                
+                <div class="management-card" onclick="window.location.href='/attendance/'">
+                    <div class="management-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <h4 class="management-title">Attendance</h4>
+                    <p class="management-desc">Record and monitor student attendance, generate reports, and track patterns.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="recent-activity">
+            <div class="activity-header">
+                <h3>Recent School Activity</h3>
+                <a href="/grading/grades/" class="view-all">View All</a>
+            </div>
+            
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>Grades Updated</h4>
+                    <p>Mathematics grades entered for Grade 7A</p>
+                </div>
+                <div class="activity-time">2h ago</div>
+            </div>
+            
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>New Student Registered</h4>
+                    <p>Emily Mwale enrolled in Grade 6B</p>
+                </div>
+                <div class="activity-time">1d ago</div>
+            </div>
+            
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>Attendance Taken</h4>
+                    <p>Morning attendance recorded for all classes</p>
+                </div>
+                <div class="activity-time">Today</div>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-calendar"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>Exam Scheduled</h4>
+                    <p>End of term exams scheduled for next month</p>
+                </div>
+                <div class="activity-time">2d ago</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple JavaScript for interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click event to navigation items
+            const navItems = document.querySelectorAll('.nav-links li');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all items
+                    navItems.forEach(i => i.classList.remove('active'));
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                });
+            });
+            
+            // Notification bell animation
+            const notificationBell = document.querySelector('.notification-bell');
+            notificationBell.addEventListener('click', function() {
+                alert('You have 3 new notifications:\n- Grade submission reminder\n- New student registration\n- System update available');
+            });
+
+            // Make cards clickable
+            const cards = document.querySelectorAll('.card, .management-card');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const url = this.getAttribute('onclick').split("'")[1];
+                    window.location.href = url;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
