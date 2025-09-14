@@ -22,7 +22,7 @@
         
         /* Sidebar Styles */
         .sidebar {
-            width: 260px;
+            width: 280px;
             background: linear-gradient(135deg, #1a56db 0%, #0d47a1 100%);
             color: white;
             padding: 20px 0;
@@ -38,13 +38,15 @@
         }
         
         .logo h1 {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
             color: white;
+            margin-bottom: 5px;
         }
         
-        .logo span {
-            color: #2ecc71;
+        .logo p {
+            color: #a5b4fc;
+            font-size: 14px;
         }
         
         .admin-info {
@@ -57,12 +59,13 @@
             font-size: 16px;
             font-weight: 500;
             margin-bottom: 5px;
-            color: #e0e7ff;
+            color: #a5b4fc;
         }
         
         .admin-info h3 {
             font-size: 20px;
             font-weight: 600;
+            margin-bottom: 10px;
         }
         
         .search-box {
@@ -84,7 +87,7 @@
         }
         
         .nav-section {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         .nav-section h4 {
@@ -115,6 +118,8 @@
         .nav-links li i {
             margin-right: 10px;
             font-size: 18px;
+            width: 20px;
+            text-align: center;
         }
         
         /* Main Content Styles */
@@ -129,11 +134,13 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
         }
         
         .header h2 {
-            font-size: 24px;
-            font-weight: 600;
+            font-size: 28px;
+            font-weight: 700;
             color: #1a56db;
         }
         
@@ -233,6 +240,7 @@
         .card-content {
             color: #6b7280;
             line-height: 1.6;
+            margin-bottom: 15px;
         }
         
         .card-stats {
@@ -271,7 +279,7 @@
         }
         
         .section-header h3 {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 600;
             color: #1a56db;
         }
@@ -294,6 +302,7 @@
             padding: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s;
+            cursor: pointer;
         }
         
         .management-card:hover {
@@ -342,7 +351,7 @@
         }
         
         .activity-header h3 {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 600;
             color: #1a56db;
         }
@@ -391,6 +400,33 @@
             font-size: 14px;
         }
         
+        /* Logout form styling */
+        .logout-form {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 12px 20px;
+        }
+        
+        .logout-form button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            padding: 0;
+        }
+        
+        .logout-form button i {
+            margin-right: 10px;
+        }
+        
+        .logout-form button:hover {
+            opacity: 0.8;
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             body {
@@ -416,47 +452,54 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo">
-            <h1>MGPAS<span>+</span></h1>
-            <p style="color: #a5b4fc; font-size: 14px; margin-top: 5px;">Musenga School System</p>
+            <h1>MGPAS</h1>
+            <p>Musenga School System</p>
         </div>
         
         <div class="admin-info">
-            <h2>Welcome back</h2>
+            <h2>ADMIN</h2>
             <h3>{{ user.first_name }} {{ user.last_name }}</h3>
-            <p style="color: #a5b4fc; font-size: 14px; margin-top: 5px;">{{ user.get_role_display }}</p>
         </div>
         
         <div class="search-box">
-            <input type="text" placeholder="Search students, grades...">
+            <input type="text" placeholder="Search...">
         </div>
         
         <div class="nav-section">
-            <h4>Main Menu</h4>
+            <h4>MAIN MENU</h4>
             <ul class="nav-links">
                 <li onclick="window.location.href='/dashboard/'"><i class="fas fa-home"></i> Dashboard</li>
-                <li onclick="window.location.href='/grading/students/'"><i class="fas fa-users"></i> Students</li>
-                <li onclick="window.location.href='/grading/grades/'"><i class="fas fa-graduation-cap"></i> Grades</li>
                 <li onclick="window.location.href='/attendance/'"><i class="fas fa-clipboard-check"></i> Attendance</li>
                 <li onclick="window.location.href='/classes/'"><i class="fas fa-chalkboard"></i> Class List</li>
-            </ul>
-        </div>
-        
-        <div class="nav-section">
-            <h4>Academic</h4>
-            <ul class="nav-links">
-                <li onclick="window.location.href='/exams/'"><i class="fas fa-file-alt"></i> Exams</li>
                 <li onclick="window.location.href='/timetable/'"><i class="fas fa-calendar-alt"></i> Timetable</li>
-                <li onclick="window.location.href='/analytics/'"><i class="fas fa-chart-bar"></i> Analytics</li>
-                <li onclick="window.location.href='/reporting/'"><i class="fas fa-file-pdf"></i> Reports</li>
+                <li onclick="window.location.href='/exams/'"><i class="fas fa-file-alt"></i> Exam</li>
             </ul>
         </div>
         
         <div class="nav-section">
-            <h4>Management</h4>
+            <h4>ACADEMIC</h4>
             <ul class="nav-links">
-                <li onclick="window.location.href='/admin/'"><i class="fas fa-cog"></i> Admin Panel</li>
+                <li onclick="window.location.href='/calendar/'"><i class="fas fa-calendar"></i> Calendar</li>
+                <li onclick="window.location.href='/news/'"><i class="fas fa-newspaper"></i> News</li>
+                <li onclick="window.location.href='/homework/'"><i class="fas fa-book"></i> Homework</li>
+                <li onclick="window.location.href='/grading/grades/'"><i class="fas fa-graduation-cap"></i> Exam Result</li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h4>MANAGEMENT</h4>
+            <ul class="nav-links">
+                <li onclick="window.location.href='/admin/'"><i class="fas fa-cog"></i> Settings</li>
+                <li onclick="window.location.href='/configuration/'"><i class="fas fa-sliders-h"></i> Configuration</li>
                 <li onclick="window.location.href='/profile/'"><i class="fas fa-user"></i> My Profile</li>
-                <li onclick="window.location.href='{% url 'admin:logout' %}'"><i class="fas fa-sign-out-alt"></i> Logout</li>
+                <li class="logout-form">
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
+                </li>
             </ul>
         </div>
     </div>
@@ -549,7 +592,7 @@
         <!-- School Management Features -->
         <div class="management-section">
             <div class="section-header">
-                <h3>School Management</h3>
+                <h3>Quick Access</h3>
             </div>
             <div class="management-grid">
                 <div class="management-card" onclick="window.location.href='/classes/'">
@@ -576,12 +619,12 @@
                     <p class="management-desc">View and manage class schedules, teacher assignments, and room allocations.</p>
                 </div>
                 
-                <div class="management-card" onclick="window.location.href='/attendance/'">
+                <div class="management-card" onclick="window.location.href='/calendar/'">
                     <div class="management-icon">
-                        <i class="fas fa-clipboard-check"></i>
+                        <i class="fas fa-calendar"></i>
                     </div>
-                    <h4 class="management-title">Attendance</h4>
-                    <p class="management-desc">Record and monitor student attendance, generate reports, and track patterns.</p>
+                    <h4 class="management-title">Calendar</h4>
+                    <p class="management-desc">View school events, holidays, and important dates in the academic calendar.</p>
                 </div>
             </div>
         </div>
@@ -590,7 +633,7 @@
         <div class="recent-activity">
             <div class="activity-header">
                 <h3>Recent School Activity</h3>
-                <a href="/grading/grades/" class="view-all">View All</a>
+                <a href="/reports/" class="view-all">View All</a>
             </div>
             
             <div class="activity-item">

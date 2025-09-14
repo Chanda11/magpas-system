@@ -9,6 +9,8 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, UpdateView, TemplateView
 from .forms import LoginForm, UserProfileForm
 from .models import User
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 class LoginView(FormView):
     """
@@ -23,6 +25,9 @@ class LoginView(FormView):
         user = form.get_user()
         login(self.request, user)
         return super().form_valid(form)
+    def custom_logout(request):
+        logout(request)
+        return redirect('login')  # Redirect to login page after logout
 
 class ProfileView(LoginRequiredMixin, UpdateView):
     """
